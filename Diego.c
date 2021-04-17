@@ -33,6 +33,22 @@ void Init(TPilha* pilha)
     pilha->tamanho = 0;
 }
 
+void List_Pilha(TPilha* pilha) //Adicionado List_Pilha
+{
+    TProcesso *atual;
+    int i;
+    atual = pilha->inicio;
+
+    printf("\n\nA pilha tem elementos: %i\n\n", pilha->tamanho);
+    printf("--------TOPO DA PILHA--------\n");
+    for (i = 0; i <pilha->tamanho; i++)
+    {
+        printf(" %s\n", atual->nome);
+        atual = pilha->inicio;
+    }
+
+}
+
 void ExibeMenu()
 {
     printf("\nSelecione uma op%c%co:\n", 135,198);

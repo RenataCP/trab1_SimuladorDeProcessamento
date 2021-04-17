@@ -1,6 +1,7 @@
 // Simulador de Processamentos
 // Alunos: Renata Costa - Engenharia da Computacao
 #include <stdio.h>
+#include <stdlib.h> //incluido biblioteca
 
 //Constantes para o Menu
 #define SAIR 0
@@ -47,6 +48,21 @@ void List_Pilha(TPilha* pilha) //Adicionado List_Pilha
         atual = pilha->inicio;
     }
 
+}
+
+void List_Adionar(TPilha* pilha, char *texto) //Adicionado List_Adicionar
+{
+    TProcesso *novo;
+    if((novo = (TProcesso*) malloc(sizeof(TProcesso))) == NULL)
+        return -1;
+    if ((novo->nome = (char * )malloc(10 * sizeof(char))) == NULL)
+        return -1;
+
+    strcpy(novo->nome, texto);
+    novo->seguinte = pilha->inicio;
+    pilha->inicio = novo;
+    pilha->tamanho++;
+    return 0;
 }
 
 void ExibeMenu()

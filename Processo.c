@@ -69,7 +69,7 @@ void ExibeMenu()
 {
     printf("\nSelecione uma op%c%co:\n", 135,198);
     printf("\t%d - Listar processos\n", LISTAR);
-    printf("\t%d - Listar processos detalahadamente\n", DETALHES);
+    printf("\t%d - Listar processos detalhadamente\n", DETALHES);
     printf("\t%d - Visualizar processo atual\n", ATUAL);
     printf("\t%d - Adicionar processo\n", ADICIONAR);
     printf("\t%d - Resetar pilha\n", RESET);
@@ -109,7 +109,10 @@ int main()
             // printf("\nATUAL");
             break;
         case ADICIONAR:
-            // printf("\nADICIONAR");
+            printf("\nADICIONAR");
+            printf("\nDigite a prioridade do processo: ");
+            printf("\nDigite o ciclo de execucao: ");
+            
             break;
         case RESET:
             // printf("\nRESET");

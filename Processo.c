@@ -47,10 +47,10 @@ void List_Pilha(TPilha* pilha) //Adicionado List_Pilha
         printf(" %s\n", atual->nome);
         atual = pilha->inicio;
     }
-
+    printf("-------- FUNDO DA PILHA--------\n");
 }
 
-void List_Adionar(TPilha* pilha, char *texto) //Adicionado List_Adicionar
+int Push_Pilha(TPilha* pilha, char *texto) //Push_Pilha
 {
     TProcesso *novo;
     if((novo = (TProcesso*) malloc(sizeof(TProcesso))) == NULL)
@@ -62,6 +62,19 @@ void List_Adionar(TPilha* pilha, char *texto) //Adicionado List_Adicionar
     novo->seguinte = pilha->inicio;
     pilha->inicio = novo;
     pilha->tamanho++;
+    return 0;
+}
+
+int Pop_Pilha(TPilha *pilha)
+{
+    TProcesso *remove_elemento;
+    if(pilha->tamanho == 0)
+        return -1;
+    remove_elemento = pilha->inicio;
+    pilha->inicio = pilha->inicio->seguinte;
+    free(remove_elemento->nome);
+    free(remove_elemento);
+    pilha->tamanho--;
     return 0;
 }
 
@@ -101,6 +114,7 @@ int main()
             break;
         case LISTAR:
             // printf("\nLISTAR");
+            printf("");
             break;
         case DETALHES:
             // printf("\nDETALHES");
@@ -111,8 +125,8 @@ int main()
         case ADICIONAR:
             printf("\nADICIONAR");
             printf("\nDigite a prioridade do processo: ");
-            printf("\nDigite o ciclo de execucao: ");
-            
+            printf("\nDigite o tempo de execucao: ");
+            scanf("%i", &execucao);
             break;
         case RESET:
             // printf("\nRESET");

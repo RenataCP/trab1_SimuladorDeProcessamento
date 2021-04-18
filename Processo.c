@@ -125,10 +125,12 @@ int main()
             break;
         case ADICIONAR:
             printf("\nADICIONAR");
+            printf("\nDigite o Nome do processo: ");
+            scanf("%i", &execucao.nomeProcesso);
             printf("\nDigite a prioridade do processo: ");
-            scanf("%i", &execucao.tempoExecucao);
-            printf("\nDigite o tempo de execucao: ");
             scanf("%i", &execucao.prioridade);
+            printf("\nDigite o tempo de execucao: ");
+            scanf("%i", &execucao.tempoExecucao);
             break;
         case RESET:
             // printf("\nRESET");

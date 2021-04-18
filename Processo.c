@@ -93,8 +93,9 @@ void ExibeMenu()
 
 int main()
 {
-    TPilha* execucao;
+    TPilha *execucao;
     int opcao;
+    
 
     if((execucao = (TPilha*) malloc(sizeof(TPilha))) == NULL)
     {
@@ -125,8 +126,9 @@ int main()
         case ADICIONAR:
             printf("\nADICIONAR");
             printf("\nDigite a prioridade do processo: ");
+            scanf("%i", &execucao.tempoExecucao);
             printf("\nDigite o tempo de execucao: ");
-            scanf("%i", &execucao);
+            scanf("%i", &execucao.prioridade);
             break;
         case RESET:
             // printf("\nRESET");

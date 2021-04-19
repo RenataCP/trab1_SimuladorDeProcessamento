@@ -50,7 +50,7 @@ void List_Pilha(TPilha* pilha) //Adicionado List_Pilha
     printf("-------- FUNDO DA PILHA--------\n");
 }
 
-int Push_Pilha(TPilha* pilha, char *texto) //Push_Pilha
+/*int Push_Pilha(TPilha* pilha, char *texto) //Push_Pilha
 {
     TProcesso *novo;
     if((novo = (TProcesso*) malloc(sizeof(TProcesso))) == NULL)
@@ -63,7 +63,7 @@ int Push_Pilha(TPilha* pilha, char *texto) //Push_Pilha
     pilha->inicio = novo;
     pilha->tamanho++;
     return 0;
-}
+}*/
 
 int Pop_Pilha(TPilha *pilha)
 {
@@ -76,6 +76,30 @@ int Pop_Pilha(TPilha *pilha)
     free(remove_elemento);
     pilha->tamanho--;
     return 0;
+}
+
+int AdProcesso(TPilha *Add)
+{
+    TProcesso *novo;
+    if((novo =(TProcesso*) malloc(sizeof(TProcesso))) == NULL)
+    {
+        return -1;
+    }
+    if((novo->nome=(char*)malloc(sizeof(char))) == NULL)
+    {
+        return -1;
+    }
+    printf("Informe o nome: ");
+    scanf("%s", novo->nome);
+    printf("Informe a prioridade: ");
+    scanf("%i", &novo->prioridade);
+    printf("Informe o tempo de execucao: ");
+    scanf("%i", &novo->tempoExecucao);
+    novo = Add->inicio;
+    Add->inicio = novo;
+    Add->tamanho++;
+    return 0;
+
 }
 
 void ExibeMenu()
@@ -103,6 +127,8 @@ int main()
         return -1;
     }
     Init(execucao);
+
+
     do
     {
         ExibeMenu(); 
@@ -124,13 +150,7 @@ int main()
             // printf("\nATUAL");
             break;
         case ADICIONAR:
-            printf("\nADICIONAR");
-            printf("\nDigite o Nome do processo: ");
-            scanf("%c", &execucao->inicio->nome);
-            printf("\nDigite a prioridade do processo: ");
-            scanf("%i", &execucao->inicio->prioridade);
-            printf("\nDigite o tempo de execucao: ");
-            scanf("%i", &execucao->inicio->tempoExecucao);
+            AdProcesso(execucao);
             break;
         case RESET:
             // printf("\nRESET");

@@ -78,7 +78,7 @@ int Pop_Pilha(TPilha *pilha)
     return 0;
 }
 
-int AdProcesso(TPilha *Add)
+int AdProcesso(TPilha *pilha)
 {
     TProcesso *novo;
     if((novo =(TProcesso*) malloc(sizeof(TProcesso))) == NULL)
@@ -95,9 +95,9 @@ int AdProcesso(TPilha *Add)
     scanf("%i", &novo->prioridade);
     printf("Informe o tempo de execucao: ");
     scanf("%i", &novo->tempoExecucao);
-    novo = Add->inicio;
-    Add->inicio = novo;
-    Add->tamanho++;
+    novo->seguinte = pilha->inicio;
+    pilha->inicio = novo;
+    pilha->tamanho++;
     return 0;
 
 }

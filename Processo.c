@@ -1,5 +1,6 @@
 // Simulador de Processamentos
 // Alunos: Renata Costa - Engenharia da Computacao
+         //Diego de Oliveira - Engenharia Elétrica
 #include <stdio.h>
 #include <stdlib.h> //incluido biblioteca
 
@@ -15,7 +16,7 @@
 //Dado tipo Processo
 typedef struct 
 {
-    char* nome;
+    char *nome;
     int prioridade;
     int tempoExecucao;
 
@@ -44,28 +45,21 @@ void List_Pilha(TPilha* pilha) //Adicionado List_Pilha
     printf("--------TOPO DA PILHA--------\n");
     for (i = 0; i <pilha->tamanho; i++)
     {
-        printf(" %s\n", atual->nome);
-        atual = pilha->inicio;
+        printf("Elemento\n");
+        printf("\tNome                   %c\n", atual->nome);
+        printf("\tPrioridade             %i\n", atual->prioridade);
+        printf("\tTempo de execucao      %i\n", atual->tempoExecucao);
+        atual = atual->seguinte;
     }
     printf("-------- FUNDO DA PILHA--------\n");
 }
 
-/*int Push_Pilha(TPilha* pilha, char *texto) //Push_Pilha
+void Tamanho_Pilha(TPilha *pilha)
 {
-    TProcesso *novo;
-    if((novo = (TProcesso*) malloc(sizeof(TProcesso))) == NULL)
-        return -1;
-    if ((novo->nome = (char * )malloc(10 * sizeof(char))) == NULL)
-        return -1;
+    printf("\n\tA pilha tem elementos : %i\n\n", pilha->tamanho);
+}
 
-    strcpy(novo->nome, texto);
-    novo->seguinte = pilha->inicio;
-    pilha->inicio = novo;
-    pilha->tamanho++;
-    return 0;
-}*/
-
-int Pop_Pilha(TPilha *pilha)
+/*int Pop_Pilha(TPilha *pilha)
 {
     TProcesso *remove_elemento;
     if(pilha->tamanho == 0)
@@ -76,7 +70,7 @@ int Pop_Pilha(TPilha *pilha)
     free(remove_elemento);
     pilha->tamanho--;
     return 0;
-}
+}*/
 
 int AdProcesso(TPilha *pilha)
 {
@@ -140,14 +134,13 @@ int main()
             // printf("\nSAIR");
             break;
         case LISTAR:
-            // printf("\nLISTAR");
-            printf("");
+            List_Pilha(execucao);
             break;
         case DETALHES:
             // printf("\nDETALHES");
             break;
         case ATUAL:
-            // printf("\nATUAL");
+            Tamanho_Pilha(execucao);
             break;
         case ADICIONAR:
             AdProcesso(execucao);

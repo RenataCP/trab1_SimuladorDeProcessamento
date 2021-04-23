@@ -84,7 +84,7 @@ int AdProcesso(TPilha *pilha)
         return -1;
     }
     printf("Informe o nome: ");
-    scanf("%s", novo->nome);
+    scanf("%s", &novo->nome);
     printf("Informe a prioridade: ");
     scanf("%i", &novo->prioridade);
     printf("Informe o tempo de execucao: ");

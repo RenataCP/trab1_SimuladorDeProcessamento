@@ -138,7 +138,6 @@ int Reset(TPilha* pilha )
 
     if(pilha->tamanho == 0)
     {
-        printf("Erro 0x003: Pilha vazia\n");
         return -1;
     }
 
@@ -154,18 +153,26 @@ int Reset(TPilha* pilha )
 
     return 0;
 }
-/*int Pop_Pilha(TPilha *pilha)
+
+int Passar_Ciclo(TProcesso* atual, TPilha* pilha)
 {
-    TProcesso *remove_elemento;
-    if(pilha->tamanho == 0)
-        return -1;
-    remove_elemento = pilha->inicio;
-    pilha->inicio = pilha->inicio->seguinte;
-    free(remove_elemento->nome);
-    free(remove_elemento);
-    pilha->tamanho--;
+    if(atual->tempoExecucao < 0)
+    {
+        printf("Erro 0x004");
+    }
+    atual->tempoExecucao--;
+    if(atual->tempoExecucao == 0)
+    {
+        printf("\nProcesso finalizado\nInicializando novo processo . . .\n");
+        // atual = pilha->inicio;
+        strcpy(atual->nome, pilha->inicio->nome);
+        atual->prioridade = pilha->inicio->prioridade;
+        atual->tempoExecucao = pilha->inicio->tempoExecucao;
+        pilha->inicio = pilha->inicio->seguinte;
+        pilha->tamanho--;
+    }
     return 0;
-}*/
+}
 
 void ExibeMenu() //Realinhei o menu
 {
@@ -223,12 +230,14 @@ int main()
         case LISTAR:
             List_Pilha(execucao);
             break;
-            break;
         case RESET:
-            Reset(execucao);
+            if(Reset(execucao) < 0)
+            {
+                printf("Erro 0x003: Pilha vazia\n");
+            }
             break;
         case CICLO:
-            // printf("\nCICLO");
+            Passar_Ciclo(atual, execucao);
             break;
         
         default:

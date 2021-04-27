@@ -35,7 +35,7 @@ void Init(TPilha* pilha)
     pilha->tamanho = 0;
 }
 
-int AdProcesso(TPilha *pilha, TProcesso* atual)
+int AdProcesso(TPilha *pilha, TProcesso* atual) //TODO: corrigir decrescente
 {
     TProcesso *novo;
     char* auxNome;
@@ -89,6 +89,7 @@ int AdProcesso(TPilha *pilha, TProcesso* atual)
             atual->prioridade = auxPrioridade;
             novo->tempoExecucao = atual->tempoExecucao;
             atual->tempoExecucao = auxTempo;
+            novo->seguinte = pilha->inicio;
             pilha->inicio = novo;
             atual->seguinte = pilha->inicio;
             pilha->tamanho++;
@@ -98,7 +99,7 @@ int AdProcesso(TPilha *pilha, TProcesso* atual)
 
 }
 
-int printAtual(TProcesso* atual) //Diego: Criei a funcao atual
+int printAtual(TProcesso* atual) //Diego: Criei a funcao atual TODO n imprimir quando vazio
 {
     printf("\n\nProcesso atual\n");
     printf("\tNome                   %s\n", atual->nome);
@@ -131,6 +132,28 @@ void Tamanho_Pilha(TPilha *pilha) //Diego: essa funcao n eh necessaria, posso ap
     printf("\n\tA pilha tem elementos : %i\n\n", pilha->tamanho);
 }
 
+int Reset(TPilha* pilha )
+{
+    TProcesso* limpar;
+
+    if(pilha->tamanho == 0)
+    {
+        printf("Erro 0x003: Pilha vazia\n");
+        return -1;
+    }
+
+    limpar = pilha->inicio;
+    do
+    {
+        limpar = pilha->inicio;
+        pilha->inicio = pilha->inicio->seguinte;
+        free(limpar->nome);
+        free(limpar);
+        pilha->tamanho--;
+    }while(pilha->tamanho > 0);
+
+    return 0;
+}
 /*int Pop_Pilha(TPilha *pilha)
 {
     TProcesso *remove_elemento;
@@ -202,7 +225,7 @@ int main()
             break;
             break;
         case RESET:
-            // printf("\nRESET");
+            Reset(execucao);
             break;
         case CICLO:
             // printf("\nCICLO");

@@ -2,16 +2,16 @@
 // Alunos: Renata Costa - Engenharia da Computacao
          //Diego de Oliveira - Engenharia Elétrica
 #include <stdio.h>
-#include <stdlib.h> //incluido biblioteca
+#include <stdlib.h> 
+#include <string.h>
 
-//Constantes para o Menu
+//Constantes para o Menu //Diego: reorganizei os numeros
 #define SAIR 0
-#define LISTAR 1
-#define DETALHES 2
-#define ATUAL 3
-#define ADICIONAR 4
-#define RESET 5
-#define CICLO 6
+#define ADICIONAR 1
+#define ATUAL 2
+#define LISTAR 3
+#define RESET 4
+#define CICLO 5
 
 //Dado tipo Processo
 typedef struct 
@@ -35,18 +35,90 @@ void Init(TPilha* pilha)
     pilha->tamanho = 0;
 }
 
+int AdProcesso(TPilha *pilha, TProcesso* atual)
+{
+    TProcesso *novo;
+    char* auxNome;
+    int auxPrioridade, auxTempo;
+    static int EmExecucao = 0; 
+
+    if((auxNome=(char*)malloc(sizeof(char))) == NULL)
+    {
+        return -1;
+    }
+    printf("Informe o nome: ");
+    scanf("%s", auxNome);
+    printf("Informe a prioridade: ");
+    scanf("%i", &auxPrioridade);
+    printf("Informe o tempo de execucao: ");
+    scanf("%i", &auxTempo);
+
+    
+    
+    if(EmExecucao == 0 ){ //estrutura que permite escolher entre colocar o novo processo em atual ou na pilha
+        strcpy(atual->nome, auxNome);
+        atual->prioridade = auxPrioridade;
+        atual->tempoExecucao = auxTempo;
+        atual->seguinte = pilha->inicio;
+        EmExecucao = 1;
+    }
+    else 
+    {
+        if((novo =(TProcesso*) malloc(sizeof(TProcesso))) == NULL)
+        {
+            return -1;
+        }
+        if((novo->nome=(char*)malloc(sizeof(char))) == NULL)
+        {
+            return -1;
+        }
+        if(atual->prioridade >= novo->prioridade || atual->prioridade < 3)
+        {
+            novo->nome = auxNome;
+            novo->prioridade = auxPrioridade;
+            novo->tempoExecucao = auxTempo;
+            novo->seguinte = pilha->inicio;
+            pilha->inicio = novo;
+            pilha->tamanho++;
+        }
+        else
+        {
+            novo->nome = atual->nome;
+            atual->nome = auxNome;
+            novo->prioridade = atual->prioridade;
+            atual->prioridade = auxPrioridade;
+            novo->tempoExecucao = atual->tempoExecucao;
+            atual->tempoExecucao = auxTempo;
+            pilha->inicio = novo;
+            atual->seguinte = pilha->inicio;
+            pilha->tamanho++;
+        }
+    }
+    return 0;
+
+}
+
+int printAtual(TProcesso* atual) //Diego: Criei a funcao atual
+{
+    printf("\n\nProcesso atual\n");
+    printf("\tNome                   %s\n", atual->nome);
+    printf("\tPrioridade             %d\n", atual->prioridade);
+    printf("\tTempo de execucao      %d\n", atual->tempoExecucao);
+    printf("\n");
+}
+
 void List_Pilha(TPilha* pilha) //Adicionado List_Pilha
 {
     TProcesso *atual;
     int i;
     atual = pilha->inicio;
 
-    printf("\n\nA pilha tem elementos: %i\n\n", pilha->tamanho);
+    printf("\n\nA pilha tem %i processos\n\n", pilha->tamanho);
     printf("--------TOPO DA PILHA--------\n");
     for (i = 0; i <pilha->tamanho; i++)
     {
-        printf("Elemento\n");
-        printf("\tNome                   %c\n", atual->nome);
+        printf("Processo\n");
+        printf("\tNome                   %s\n", atual->nome);
         printf("\tPrioridade             %i\n", atual->prioridade);
         printf("\tTempo de execucao      %i\n", atual->tempoExecucao);
         atual = atual->seguinte;
@@ -54,7 +126,7 @@ void List_Pilha(TPilha* pilha) //Adicionado List_Pilha
     printf("-------- FUNDO DA PILHA--------\n");
 }
 
-void Tamanho_Pilha(TPilha *pilha)
+void Tamanho_Pilha(TPilha *pilha) //Diego: essa funcao n eh necessaria, posso apagar? 
 {
     printf("\n\tA pilha tem elementos : %i\n\n", pilha->tamanho);
 }
@@ -72,37 +144,12 @@ void Tamanho_Pilha(TPilha *pilha)
     return 0;
 }*/
 
-int AdProcesso(TPilha *pilha)
-{
-    TProcesso *novo;
-    if((novo =(TProcesso*) malloc(sizeof(TProcesso))) == NULL)
-    {
-        return -1;
-    }
-    if((novo->nome=(char*)malloc(sizeof(char))) == NULL)
-    {
-        return -1;
-    }
-    printf("Informe o nome: ");
-    scanf("%s", &novo->nome);
-    printf("Informe a prioridade: ");
-    scanf("%i", &novo->prioridade);
-    printf("Informe o tempo de execucao: ");
-    scanf("%i", &novo->tempoExecucao);
-    novo->seguinte = pilha->inicio;
-    pilha->inicio = novo;
-    pilha->tamanho++;
-    return 0;
-
-}
-
-void ExibeMenu()
+void ExibeMenu() //Realinhei o menu
 {
     printf("\nSelecione uma op%c%co:\n", 135,198);
-    printf("\t%d - Listar processos\n", LISTAR);
-    printf("\t%d - Listar processos detalhadamente\n", DETALHES);
-    printf("\t%d - Visualizar processo atual\n", ATUAL);
     printf("\t%d - Adicionar processo\n", ADICIONAR);
+    printf("\t%d - Visualizar processo atual\n", ATUAL);
+    printf("\t%d - Listar processos\n", LISTAR);
     printf("\t%d - Resetar pilha\n", RESET);
     printf("\t%d - Avan%car ciclo\n", CICLO, 135);
     printf("\t%d - Sair\n", SAIR);
@@ -112,12 +159,20 @@ void ExibeMenu()
 int main()
 {
     TPilha *execucao;
+    TProcesso* atual;
     int opcao;
     
-
     if((execucao = (TPilha*) malloc(sizeof(TPilha))) == NULL)
     {
         printf("Erro 0x001\n\t...Encerrando...");// o nome do erro eh so para fazer graca
+        return -1;
+    }
+    if((atual =(TProcesso*) malloc(sizeof(TProcesso))) == NULL) //iniciei o processo ATUAL com malloc
+    {
+        return -1;
+    }
+    if((atual->nome=(char*)malloc(sizeof(char))) == NULL)
+    {
         return -1;
     }
     Init(execucao);
@@ -133,17 +188,18 @@ int main()
         case SAIR:
             // printf("\nSAIR");
             break;
+        case ADICIONAR:
+            if(AdProcesso(execucao, atual) < 0)
+            {
+                printf("Erro 0x002\n\tO processo n%co pode ser criado", 198);
+            }
+            break;
+        case ATUAL:
+            printAtual(atual);
+            //break; //Diego: Deixei sem o break para ele tambem imprimir a pilha, imprimindo assim "o estado atual de forma geral", achei mais facil para debugar e gostei assim, oq acha?
         case LISTAR:
             List_Pilha(execucao);
             break;
-        case DETALHES:
-            // printf("\nDETALHES");
-            break;
-        case ATUAL:
-            Tamanho_Pilha(execucao);
-            break;
-        case ADICIONAR:
-            AdProcesso(execucao);
             break;
         case RESET:
             // printf("\nRESET");

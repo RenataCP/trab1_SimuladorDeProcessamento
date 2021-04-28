@@ -73,7 +73,7 @@ int AdProcesso(TPilha *pilha, TProcesso* atual) //TODO: corrigir decrescente
         {
             return -1;
         }
-        if(atual->prioridade >= novo->prioridade || atual->prioridade < 3)
+        if(atual->prioridade >= auxPrioridade || atual->prioridade < 3)
         {
             novo->nome = auxNome;
             novo->prioridade = auxPrioridade;
@@ -85,14 +85,15 @@ int AdProcesso(TPilha *pilha, TProcesso* atual) //TODO: corrigir decrescente
         else
         {
             novo->nome = atual->nome;
-            atual->nome = auxNome;
             novo->prioridade = atual->prioridade;
-            atual->prioridade = auxPrioridade;
             novo->tempoExecucao = atual->tempoExecucao;
+            atual->nome = auxNome;
+            atual->prioridade = auxPrioridade;
             atual->tempoExecucao = auxTempo;
+
             novo->seguinte = pilha->inicio;
             pilha->inicio = novo;
-            atual->seguinte = pilha->inicio;
+            // atual->seguinte = novo->seguinte;
             pilha->tamanho++;
         }
     }
@@ -141,8 +142,6 @@ int Reset(TPilha* pilha )
     {
         return -1;
     }
-
-    limpar = pilha->inicio;
     do
     {
         limpar = pilha->inicio;
@@ -175,7 +174,7 @@ int Passar_Ciclo(TProcesso* atual, TPilha* pilha)
     return 0;
 }
 
-void ExibeMenu() //Realinhei o menu
+void ExibeMenu() //Diego: Realinhei o menu
 {
     printf("\nSelecione uma op%c%co:\n", 135,198);
     printf("\t%d - Adicionar processo\n", ADICIONAR);

@@ -129,11 +129,6 @@ void List_Pilha(TPilha* pilha) //Adicionado List_Pilha
     printf("-------- FUNDO DA PILHA--------\n");
 }
 
-void Tamanho_Pilha(TPilha *pilha) //Diego: essa funcao n eh necessaria, posso apagar? 
-{
-    printf("\n\tA pilha tem elementos : %i\n\n", pilha->tamanho);
-}
-
 int Reset(TPilha* pilha )
 {
     TProcesso* limpar;

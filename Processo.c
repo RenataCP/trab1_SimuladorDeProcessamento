@@ -6,7 +6,7 @@
 #include <stdlib.h> 
 #include <string.h>
 
-//Constantes para o Menu //Diego: reorganizei os numeros
+//Constantes para o Menu //Diego: reorganizei os numeros // OK Renata
 #define SAIR 0
 #define ADICIONAR 1
 #define ATUAL 2
@@ -101,7 +101,7 @@ int AdProcesso(TPilha *pilha, TProcesso* atual) //TODO: corrigir decrescente
 
 }
 
-int printAtual(TProcesso* atual) //Diego: Criei a funcao atual TODO n imprimir quando vazio
+int printAtual(TProcesso* atual) //Diego: Criei a funcao atual TODO n imprimir quando vazio // Ok Renata
 {
     printf("\n\nProcesso atual\n");
     printf("\tNome                   %s\n", atual->nome);
@@ -169,7 +169,7 @@ int Passar_Ciclo(TProcesso* atual, TPilha* pilha)
     return 0;
 }
 
-void ExibeMenu() //Diego: Realinhei o menu
+void ExibeMenu() //Diego: Realinhei o menu //OK
 {
     printf("\nSelecione uma op%c%co:\n", 135,198);
     printf("\t%d - Adicionar processo\n", ADICIONAR);
@@ -221,7 +221,7 @@ int main()
             break;
         case ATUAL:
             printAtual(atual);
-            //break; //Diego: Deixei sem o break para ele tambem imprimir a pilha, imprimindo assim "o estado atual de forma geral", achei mais facil para debugar e gostei assim, oq acha?
+            //break; //Diego: Deixei sem o break para ele tambem imprimir a pilha, imprimindo assim "o estado atual de forma geral", achei mais facil para debugar e gostei assim, oq acha? // Concordo
         case LISTAR:
             List_Pilha(execucao);
             break;

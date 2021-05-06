@@ -19,5 +19,6 @@ Criar um programa em C que simule um processador, tendo um Processo no estado At
 # Autores
 Renata Costa  
 renatacostamachado8@gmail.com
-Diego de Oliveira
+
+Diego de Oliveira  
 diegopeterbilt@gmail.com
